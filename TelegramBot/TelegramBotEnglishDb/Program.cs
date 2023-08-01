@@ -1,6 +1,10 @@
-using DemoDotnetBot.Services;
+using Microsoft.EntityFrameworkCore;
 using Telegram.Bot;
-using TelegramBotEnglishDb.Configurations;
+using Telegram.Bot.Polling;
+using TelegramBotEnglishDb.DbContexts;
+using TelegramBotEnglishDb.Interfaces.UserInterfaces;
+using TelegramBotEnglishDb.Services;
+//using TelegramBotEnglishDb.Services;
 
 namespace TelegramBotEnglishDb
 {
@@ -9,15 +13,23 @@ namespace TelegramBotEnglishDb
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            
+            //Add token 
+            var token = builder.Configuration.GetSection("BotConfiguration").GetValue("BotToken", string.Empty);
+            builder.Services.AddSingleton(p => new TelegramBotClient(token));
+
+            builder.Services.AddSingleton<IUpdateHandler, BotUpdateHandler>();
+            builder.Services.AddHostedService<BotBackgroundService>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            //database
+            builder.Services.AddDbContext<UserDbContext>(
+                options => options.UseNpgsql(builder.Configuration.GetConnectionString("Database")));
             // Add services to the container.
             builder.Services.AddControllers();
-            builder.Services.AddConfigureServices(builder.Configuration);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            // new Services
-            builder.Services.AddHostedService<ConfigureWebhook>();
-            builder.Services.AddScoped<HandleUpdateService>();
 
             var app = builder.Build();
             // Configure the HTTP request pipeline.

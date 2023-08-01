@@ -17,4 +17,9 @@
     <PackageReference Include="Telegram.Bot" Version="19.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Configurations\" />
+    <Folder Include="wwwroot\videos\" />
+  </ItemGroup>
+
 </Project>
