@@ -6,7 +6,7 @@ using TelegramBotEnglishDb.Interfaces.UserInterfaces;
 
 namespace TelegramBotEnglishDb.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("Users")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -16,7 +16,7 @@ namespace TelegramBotEnglishDb.Controllers
         {
             _userService = userService;
         }
-        [HttpPost]
+        [HttpPost("Add")]
         public async Task<IActionResult> AddNewUserDbAsync([FromBody] Update update)
         {
             await _userService.AddUserAsync(update);

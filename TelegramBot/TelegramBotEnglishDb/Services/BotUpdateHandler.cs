@@ -26,7 +26,7 @@ namespace TelegramBotEnglishDb.Services
                 UpdateType.Message => HandleMessageAsync(botClient, update.Message, cancellationToken),
                 UpdateType.EditedMessage => HandleEditedMessageAsync(botClient, update.EditedMessage, cancellationToken),
                 //handle other updates
-                _ => handleUnknownUpdate(botClient, update, cancellationToken)
+                _ => HandleUnknownUpdate(botClient, update, cancellationToken)
             };
             try
             {
@@ -38,7 +38,7 @@ namespace TelegramBotEnglishDb.Services
             }
         }
 
-        private Task handleUnknownUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        private Task HandleUnknownUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Update of type {update.Type} received.",update.Type);
             return Task.CompletedTask;
