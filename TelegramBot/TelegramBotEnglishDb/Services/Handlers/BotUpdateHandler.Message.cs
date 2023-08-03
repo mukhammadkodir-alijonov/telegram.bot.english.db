@@ -10,7 +10,7 @@ namespace TelegramBotEnglishDb.Services
         {
             ArgumentNullException.ThrowIfNull(message);
             var from = message.From;
-            _logger.LogInformation("Received message from {from.Firstname}",from?.FirstName);
+            _logger.LogInformation("Received message from {from.Firstname}", from?.FirstName);
 
             var handler = message.Type switch
             {
@@ -23,7 +23,7 @@ namespace TelegramBotEnglishDb.Services
 
         private Task HandleUnknownMessageAsync(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Received message type {message.Type}",message.Type);
+            _logger.LogInformation("Received message type {message.Type}", message.Type);
             return Task.CompletedTask;
         }
 
